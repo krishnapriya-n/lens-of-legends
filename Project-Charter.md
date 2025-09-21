@@ -1,6 +1,6 @@
 # VCT Hackathon Project Charter
 
-<b>Project Title</b>: TBD\
+<b>Project Title</b>: Lens of Legends\
 <b>Project Start Date</b>: <i>16 September 2025</i>\
 <b>Project Finish Date</b>: <i>11 November 2025</i>
 
