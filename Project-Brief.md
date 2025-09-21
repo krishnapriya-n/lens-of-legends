@@ -1,4 +1,4 @@
-# Name TBD
+# Lens of Legends
 
 Solo-built AI coaching agent that turns a player's full year League match history into a shareable, data-driven end of year retrospectives. It pairs actionable coaching tips with fun, social-friendly highlights.\
 Powered by AWS generative AI and the League API.
