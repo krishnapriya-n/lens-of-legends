@@ -1,4 +1,4 @@
-# VCT Hackathon Project Charter
+# Rift Rewind Hackathon Project Charter
 
 <b>Project Title</b>: Lens of Legends\
 <b>Project Start Date</b>: <i>16 September 2025</i>\
