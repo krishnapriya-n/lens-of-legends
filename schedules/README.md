@@ -6,6 +6,7 @@ This document will be used to assign dates throughout the project, along with ta
 | --- | --- | --- | --- |
 | Create Repo | Create a public repository for the hackathon | Sept 21, 2025 | Done |
 | Gather Resources | Helpful resources such as timelines, AWS credits, audience surveys etc. | Sept 23, 2025 | In Progress |
+| Front end development | Create static front end pages, such as index, login etc. | Sept 26, 2025 | In Progress |
 | TBD |  |  |  |
 | TBD |  |  |  |
 | Project Due | Deadline to submit the project | Nov 11, 2025 | Not done |
