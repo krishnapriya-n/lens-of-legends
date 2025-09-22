@@ -11,7 +11,8 @@ You are stepping into the role of an AI solutions developer tasked with building
 
 | Name | Role | Profile |
 | --- | --- | --- |
-| Krishna Priya N | Solo Developer | <a href = "https://github.com/krishnapriya-n" rel = "nofollow"> krishnapriya-n</a>
+| Krishna Priya N | Fullstack Developer | <a href = "https://github.com/krishnapriya-n" rel = "nofollow"> krishnapriya-n</a>
+| Pranav K | Frontend Developer | <a href = "https://github.com/enmadourayuga" rel = "nofollow"> enmadourayuga</a>
 | Amazon Web Services | Sponsor | <a href = "https://aws.amazon.com/" rel = "nofollow"> AWS </a> | 
 | Riot Games | Stakeholder | <a href = "https://www.riotgames.com/en"> Riot Games </a> |
 | Devpost | Administrator | <a href = "https://devpost.com/"> Devpost </a> |
