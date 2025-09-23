@@ -134,22 +134,52 @@ body, html {
 }
 
 /* Arrow Button Below Box */
-.signin-arrow {
-  margin-top: 15px;
-  width: 60px;
-  height: 60px;
-  background-color: #241822;
-  border-radius: 12px;
+.signin-box button {
+  background: #f3c6b8;
   border: none;
-  color: white;
-  font-size: 1.8rem;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s;
 }
 
-.signin-arrow:hover {
-  background-color: #3a2d36;
+.signin-box button:hover {
+  background: #e6a893;
+}
+
+/* Landing Page */
+.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4); /* translucent bar */
+}
+
+.site-header img {
+  height: 50px;      /* controls logo size */
+  width: auto;       /* keeps aspect ratio */
+}
+
+.login-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.login-btn:hover {
+  background: #f3c6b8;
+  color: #000;
+  text-decoration: none;
 }
