@@ -1,0 +1,29 @@
+name: Run Backend
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    env:
+      RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          pip install -r backend/requirements.txt
+
+      - name: Run backend (test mode)
+        run: |
+          python backend/app.py
