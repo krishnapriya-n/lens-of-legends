@@ -1,26 +1,34 @@
-import os
-import requests
-from dotenv import load_dotenv
+from flask import Flask, jsonify, request
+from riot_api import get_summoner_info
+from insights import generate_insights
+from aws_ai import analyze_with_bedrock
 
-load_dotenv()
-API_KEY = os.getenv("RIOT_API_KEY")
+app = Flask(__name__)
 
-BASE_URL = "https://asia.api.riotgames.com/lol"
+@app.route("/")
+def home():
+    return jsonify({"message": "Backend running successfully!"})
 
-def get_puuid(summoner_name):
-    """Get PUUID (unique player ID) from Summoner name"""
-    url = f"{BASE_URL}/summoner/v4/summoners/by-name/{summoner_name}"
-    res = requests.get(url, headers={"X-Riot-Token": API_KEY})
-    return res.json().get("puuid")
+@app.route("/summoner", methods=["GET"])
+def summoner():
+    summoner_name = request.args.get("name")
+    if not summoner_name:
+        return jsonify({"error": "Summoner name is required"}), 400
 
-def get_matches(puuid, count=20):
-    """Get recent match IDs"""
-    url = f"{BASE_URL}/match/v5/matches/by-puuid/{puuid}/ids?count={count}"
-    res = requests.get(url, headers={"X-Riot-Token": API_KEY})
-    return res.json()
+    data = get_summoner_info(summoner_name)
+    return jsonify(data)
 
-def get_match_details(match_id):
-    """Get full match data"""
-    url = f"{BASE_URL}/match/v5/matches/{match_id}"
-    res = requests.get(url, headers={"X-Riot-Token": API_KEY})
-    return res.json()
+@app.route("/insights", methods=["POST"])
+def insights():
+    data = request.json
+    insights = generate_insights(data)
+    return jsonify(insights)
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    data = request.json.get("text", "")
+    result = analyze_with_bedrock(data)
+    return jsonify(result)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
