@@ -1,41 +1,32 @@
 import os
 import sys
-import requests
 
 sys.path.append("backend")
 import insights  # your existing insights module
 
 # Constants
-RIOT_API_KEY = os.getenv("RIOT_API_KEY")
 SUMMONER_NAME = "Faker"  # test summoner
-REGION = "na1"           # adjust as needed
 
+# --- Mock functions to replace Riot API calls ---
 def fetch_summoner(name):
-    url = f"https://{REGION}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}"
-    headers = {"X-Riot-Token": RIOT_API_KEY}
-    r = requests.get(url, headers=headers)
-    if r.status_code == 200:
-        return r.json()
-    else:
-        print(f"❌ Failed to fetch summoner: {r.status_code} {r.text}")
-        sys.exit(1)
+    print(f"Mock fetch summoner: {name}")
+    return {"name": name, "summonerLevel": 100, "puuid": "dummy-puuid"}
 
 def fetch_recent_matches(puuid, count=5):
-    url = f"https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count={count}"
-    headers = {"X-Riot-Token": RIOT_API_KEY}
-    r = requests.get(url, headers=headers)
-    if r.status_code == 200:
-        return r.json()
-    else:
-        print(f"❌ Failed to fetch matches: {r.status_code} {r.text}")
-        sys.exit(1)
+    print(f"Mock fetch {count} recent matches for {puuid}")
+    return [f"match_{i}" for i in range(count)]
 
 def generate_mock_insight(match_ids):
-    # Use your insights module for real logic; for now, a placeholder
+    # Replace with your insights module logic if needed
     return insights.generate_insights({"matches": match_ids})
 
 def main():
-    print("✅ Riot API key loaded successfully!")
+    if os.getenv("RIOT_API_KEY"):
+        print("✅ Riot API key loaded successfully!")
+    else:
+        print("❌ Riot API key NOT found!")
+        sys.exit(1)
+
     summoner = fetch_summoner(SUMMONER_NAME)
     print(f"Fetched summoner: {summoner['name']} (Level {summoner['summonerLevel']})")
 
