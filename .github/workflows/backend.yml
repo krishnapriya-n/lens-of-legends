@@ -21,22 +21,7 @@ jobs:
           python-version: 3.11
 
       - name: Install dependencies
-        run: |
-          pip install -r backend/requirements.txt
+        run: pip install -r backend/requirements.txt
 
-      - name: Test backend imports and Riot API key
-        run: |
-          python - <<EOF
-import os
-import sys
-sys.path.append('backend')
-import riot_api
-import insights
-import aws_ai
-
-if os.getenv('RIOT_API_KEY'):
-    print('Riot API key loaded successfully!')
-else:
-    print('Riot API key NOT found!')
-    sys.exit(1)
-EOF
+      - name: Run backend test
+        run: python backend/test_backend.py
