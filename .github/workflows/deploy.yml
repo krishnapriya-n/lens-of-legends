@@ -20,11 +20,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt
+        pip install -r backend/requirements.txt
 
     - name: Create backend.zip
       run: |
-        zip -r backend.zip . -x "*.git*"  # exclude git files
+        zip -r backend/backend.zip backend/*
 
     - name: Upload to S3
       uses: aws-actions/configure-aws-credentials@v2
