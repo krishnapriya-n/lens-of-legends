@@ -29,26 +29,24 @@ jobs:
 
       # 4. Run backend tests
       - name: Run backend tests
-        env:
-          RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
         run: |
           cd backend
           python test_backend.py
 
-      # 5. Zip backend code
+      # 5. Zip backend code (flattened, no extra backend folder)
       - name: Zip backend code
         run: |
           cd backend
-          zip -r ../backend.zip .
+          zip -r ../backend.zip . -x "*.pyc"
 
       # 6. Upload zip to S3
       - name: Upload to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws s3 cp ./backend.zip s3://${{ secrets.AWS_BUCKET_NAME }}/backend.zip
+          aws s3 cp ../backend.zip s3://lens-of-legends-backend-s3/backend.zip
 
       # 7. Deploy to Elastic Beanstalk
       - name: Deploy to Elastic Beanstalk
@@ -57,9 +55,10 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: 'lens-of-legends-backend'
-          environment_name: 'Lens-of-legends-backend-env-1'
-          region: ${{ secrets.AWS_REGION }}
+          environment_name: 'Lens-of-legends-backend-env'
+          region: 'ap-southeast-2'
           version_label: 'v${{ github.run_number }}'
-          bucket_name: ${{ secrets.AWS_BUCKET_NAME }}
-          file: './backend.zip'
+          bucket_name: ${{ secrets.S3_BUCKET }}
+          file: 'backend.zip'
           wait_for_deployment: true
+
