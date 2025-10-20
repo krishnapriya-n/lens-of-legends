@@ -29,11 +29,13 @@ jobs:
 
       # 4. Run backend tests
       - name: Run backend tests
+        env:
+          RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
         run: |
           cd backend
           python test_backend.py
 
-      # 5. Zip backend
+      # 5. Zip backend code
       - name: Zip backend code
         run: |
           cd backend
@@ -46,7 +48,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws s3 cp ../backend.zip s3://${{ secrets.AWS_BUCKET_NAME }}/backend.zip
+          aws s3 cp ./backend.zip s3://${{ secrets.AWS_BUCKET_NAME }}/backend.zip
 
       # 7. Deploy to Elastic Beanstalk
       - name: Deploy to Elastic Beanstalk
@@ -59,5 +61,5 @@ jobs:
           region: ${{ secrets.AWS_REGION }}
           version_label: 'v${{ github.run_number }}'
           bucket_name: ${{ secrets.AWS_BUCKET_NAME }}
-          file: 'backend.zip'
+          file: './backend.zip'
           wait_for_deployment: true
