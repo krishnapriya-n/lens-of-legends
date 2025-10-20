@@ -1,46 +1,38 @@
-name: Deploy Backend to AWS Elastic Beanstalk
+name: Deploy Backend to S3
 
 on:
   push:
     branches:
-      - main  # deploy on push to main branch
+      - main  # Change if needed
 
 jobs:
-  deploy:
+  build-and-upload:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout your repo
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      # 2. Set up Python (if your backend is Python)
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'  # change to your version
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
 
-      # 3. Install dependencies (optional, good for testing)
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
 
-      # 4. Zip backend code
-      - name: Zip backend
-        run: zip -r backend.zip . -x "*.git*"
+    - name: Create backend.zip
+      run: |
+        zip -r backend.zip . -x "*.git*"  # exclude git files
 
-      # 5. Deploy to Elastic Beanstalk
-      - name: Deploy to Elastic Beanstalk
-        uses: einaregilsson/beanstalk-deploy@v22
-        with:
-          application_name: lens-of-legends-backend
-          environment_name: Lens-of-legends-backend-env-1
-          version_label: ${{ github.run_number }}
-          region: ${{ secrets.AWS_REGION }}
-          bucket_name: lens-of-legends-backend-deploy
-          bucket_key: backend.zip
-          deployment_package: backend.zip
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          wait_for_deployment: true
+    - name: Upload to S3
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Upload backend.zip to S3
+      run: |
+        aws s3 cp backend.zip s3://${{ secrets.S3_BUCKET }}/backend.zip
